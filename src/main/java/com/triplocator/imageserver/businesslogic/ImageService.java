@@ -4,36 +4,28 @@ import com.triplocator.imageserver.consts.ImageConst;
 import com.triplocator.imageserver.request.ImageSaveRequest;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Base64;
-import java.io.UnsupportedEncodingException;
 
 
 @Component
 public class ImageService {
     public String saveImage(ImageSaveRequest request) {
-        File outputfile = new File(ImageConst.getIMAGESAVEPATH() + "saved.jpg");
+        File outputfile = new File(ImageConst.getIMAGESAVEPATH() + "save.jpg");
         try {
             // retrieve image
-            byte[] name = Base64.getEncoder().encode(request.getBase64Image().getBytes());
-            byte[] decodedImg = Base64.getDecoder().decode(new String(name).getBytes("UTF-8"));
-
+//            byte[] name = Base64.getEncoder().encode(request.getBase64Image().replace("data:image/png;base64","").getBytes());
+//            byte[] decodedImg = Base64.getDecoder().decode(new String(name).getBytes("UTF-8"));
             File directory = new File(ImageConst.getIMAGESAVEPATH());
-            if (! directory.exists()){
+            if (!directory.exists()) {
                 directory.mkdirs();
-                // If you require it to make the entire directory path including parents,
-                // use directory.mkdirs(); here instead.
             }
-
-            Path destinationFile = Paths.get(ImageConst.getIMAGESAVEPATH(), "myImage.png");
-            Files.write(destinationFile, decodedImg);
+            BufferedImage bi = decodeToImage(request.getBase64Image());  // retrieve image
+            ImageIO.write(bi, "png", outputfile);
         } catch (IOException e) {
             System.out.println("Write error for " + outputfile.getPath() +
                     ": " + e.getMessage());
@@ -42,7 +34,14 @@ public class ImageService {
     }
 
     public Boolean deleteImage(String path) {
-
+        try {
+            File file = new File(path);
+            if (file.delete()) {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -70,13 +69,14 @@ public class ImageService {
         return imageInByte;
     }
 
-    private BufferedImage convertBase64ToBufferedImage(String base64File) {
+
+    public static BufferedImage decodeToImage(String imageString) {
+
         BufferedImage image = null;
-        base64File = base64File.replace("data:image/png;base64", "");
         byte[] imageByte;
         try {
             BASE64Decoder decoder = new BASE64Decoder();
-            imageByte = decoder.decodeBuffer(base64File);
+            imageByte = decoder.decodeBuffer(imageString);
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             image = ImageIO.read(bis);
             bis.close();
@@ -84,6 +84,24 @@ public class ImageService {
             e.printStackTrace();
         }
         return image;
+    }
+
+    public static String encodeToString(BufferedImage image, String type) {
+        String imageString = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(image, type, bos);
+            byte[] imageBytes = bos.toByteArray();
+
+            BASE64Encoder encoder = new BASE64Encoder();
+            imageString = encoder.encode(imageBytes);
+
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageString;
     }
 
 }
