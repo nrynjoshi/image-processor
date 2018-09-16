@@ -2,33 +2,70 @@ package com.triplocator.imageserver.hanlder;
 
 import com.triplocator.imageserver.businesslogic.ImageCropUtil;
 import com.triplocator.imageserver.businesslogic.ImageService;
-import com.triplocator.imageserver.response.GeneralRespnse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.xml.ws.Action;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 @Controller
-@RequestMapping(value = {"mobile","display","thumbnails","banner","medium"})
 public class FetchImageHanlder {
 
     @Autowired private ImageService imageService;
     @Autowired private ImageCropUtil imageCropUtil;
 
-    @GetMapping(value = "/test",produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] retriveImage(@RequestParam("w") int w,@RequestParam("h") int h) throws IOException {
+    Environment environment;
+
+    FetchImageHanlder(Environment environment){
+        this.environment=environment;
+    }
+
+    @GetMapping(value = "mobile/test",produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] mobileRetriveImage() throws IOException {
        String path="C:/Users/Narayan Joshi/Pictures/";
-        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),w,h).toByteArray();
-        //return imageService.provideImage(path);
+       //first scale as per screen fit then crop the image
+        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("mobile.width"),envirValue("mobile.height")).toByteArray();
 
+    }
 
+    @GetMapping(value = "display/test",produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] displayRetriveImage() throws IOException {
+        String path="C:/Users/Narayan Joshi/Pictures/";
+        //first scale as per screen fit then crop the image
+        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("display.width"),envirValue("display.height")).toByteArray();
+
+    }
+
+    @GetMapping(value = "thumbnail/test",produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] thumbnailRetriveImage() throws IOException {
+        String path="C:/Users/Narayan Joshi/Pictures/";
+        //first scale as per screen fit then crop the image
+        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("thumbnail.width"),envirValue("thumbnail.height")).toByteArray();
+
+    }
+
+    @GetMapping(value = "banner/test",produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] bannerRetriveImage() throws IOException {
+        String path="C:/Users/Narayan Joshi/Pictures/";
+        //first scale as per screen fit then crop the image
+        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("banner.width"),envirValue("banner.height")).toByteArray();
+
+    }
+
+    @GetMapping(value = "medium/test",produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] mediumRetriveImage() throws IOException {
+        String path="C:/Users/Narayan Joshi/Pictures/";
+        //first scale as per screen fit then crop the image
+        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("medium.width"),envirValue("medium.height")).toByteArray();
+
+    }
+
+    private int envirValue(String type){
+       return Integer.parseInt(environment.getProperty("triplocator."+type));
     }
 
 
