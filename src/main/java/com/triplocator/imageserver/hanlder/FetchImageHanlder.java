@@ -28,40 +28,41 @@ public class FetchImageHanlder {
     public @ResponseBody byte[] mobileRetriveImage() throws IOException {
        String path="C:/Users/Narayan Joshi/Pictures/";
        //first scale as per screen fit then crop the image
-        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("mobile.width"),envirValue("mobile.height")).toByteArray();
-
+        byte[] fitImage= imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("mobile.width"),envirValue("mobile.height")).toByteArray();
+        return imageCropUtil.crop(new ByteArrayInputStream(fitImage),envirValue("mobile.width"),envirValue("mobile.height")).toByteArray();
     }
 
     @GetMapping(value = "display/test",produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] displayRetriveImage() throws IOException {
         String path="C:/Users/Narayan Joshi/Pictures/";
         //first scale as per screen fit then crop the image
-        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("display.width"),envirValue("display.height")).toByteArray();
-
+        byte[] fitImage= imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("display.width"),envirValue("display.height")).toByteArray();
+        return imageCropUtil.crop(new ByteArrayInputStream(fitImage),envirValue("display.width"),envirValue("display.height")).toByteArray();
     }
 
     @GetMapping(value = "thumbnail/test",produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] thumbnailRetriveImage() throws IOException {
         String path="C:/Users/Narayan Joshi/Pictures/";
         //first scale as per screen fit then crop the image
-        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("thumbnail.width"),envirValue("thumbnail.height")).toByteArray();
-
+        byte[] fitImage= imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("thumbnail.width"),envirValue("thumbnail.height")).toByteArray();
+        return imageCropUtil.crop(new ByteArrayInputStream(fitImage),envirValue("thumbnail.width"),envirValue("thumbnail.height")).toByteArray();
     }
 
     @GetMapping(value = "banner/test",produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] bannerRetriveImage() throws IOException {
         String path="C:/Users/Narayan Joshi/Pictures/";
         //first scale as per screen fit then crop the image
-        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("banner.width"),envirValue("banner.height")).toByteArray();
 
+        byte[] fitImage= imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("banner.width"),envirValue("banner.height")).toByteArray();
+        return imageCropUtil.crop(new ByteArrayInputStream(fitImage),envirValue("banner.width"),envirValue("banner.height")).toByteArray();
     }
 
     @GetMapping(value = "medium/test",produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody byte[] mediumRetriveImage() throws IOException {
         String path="C:/Users/Narayan Joshi/Pictures/";
         //first scale as per screen fit then crop the image
-        return imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("medium.width"),envirValue("medium.height")).toByteArray();
-
+        byte[] fitImage= imageCropUtil.fit(new ByteArrayInputStream(imageService.provideImage(path)),envirValue("medium.width"),envirValue("medium.height")).toByteArray();
+        return imageCropUtil.crop(new ByteArrayInputStream(fitImage),envirValue("medium.width"),envirValue("medium.height")).toByteArray();
     }
 
     private int envirValue(String type){
