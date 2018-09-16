@@ -22,7 +22,7 @@ public class ImageCropUtil {
         return baos;
     }
 
-    public static BufferedImage crop(BufferedImage src, int width, int height) throws IOException {
+    public static BufferedImage crop(BufferedImage src, int width, int height)  {
         int x = src.getWidth()/2 - width/2;
         int y = src.getHeight()/2 - height/2;
 

@@ -17,11 +17,14 @@ public class RequestHandler {
 
     @Autowired private ImageService imageService;
 
+
+
     @PostMapping("image")
     public GeneralRespnse saveImage(RequestEntity<ImageSaveRequest> request){
         String finalPath=null;
         GeneralRespnse  respnse=new GeneralRespnse();
         try{
+
             finalPath= imageService.saveImage(request.getBody());
         }catch (Exception x){
             respnse.setMessage(x.getMessage());
