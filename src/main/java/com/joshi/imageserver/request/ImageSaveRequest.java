@@ -1,4 +1,4 @@
-package com.triplocator.imageserver.request;
+package com.joshi.imageserver.request;
 
 import java.util.List;
 

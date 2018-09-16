@@ -1,8 +1,8 @@
-package com.triplocator.imageserver.hanlder;
+package com.joshi.imageserver.hanlder;
 
-import com.triplocator.imageserver.businesslogic.ImageCropUtil;
-import com.triplocator.imageserver.businesslogic.ImageService;
-import com.triplocator.imageserver.consts.ImageConst;
+import com.joshi.imageserver.businesslogic.ImageCropUtil;
+import com.joshi.imageserver.businesslogic.ImageService;
+import com.joshi.imageserver.consts.ImageConst;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

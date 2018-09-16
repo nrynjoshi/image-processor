@@ -1,4 +1,4 @@
-package com.triplocator.imageserver.enums;
+package com.joshi.imageserver.enums;
 
 public enum ImageTypeEnum {
 

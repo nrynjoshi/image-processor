@@ -1,7 +1,7 @@
-package com.triplocator.imageserver.businesslogic;
+package com.joshi.imageserver.businesslogic;
 
-import com.triplocator.imageserver.consts.ImageConst;
-import com.triplocator.imageserver.request.ImageSaveRequest;
+import com.joshi.imageserver.consts.ImageConst;
+import com.joshi.imageserver.request.ImageSaveRequest;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

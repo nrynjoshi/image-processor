@@ -1,4 +1,4 @@
-package com.triplocator.imageserver.consts;
+package com.joshi.imageserver.consts;
 
 public class ImageConst {
 

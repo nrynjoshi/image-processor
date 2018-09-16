@@ -1,4 +1,4 @@
-package com.triplocator.imageserver.businesslogic;
+package com.joshi.imageserver.businesslogic;
 
 import org.springframework.stereotype.Component;
 

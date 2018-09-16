@@ -1,8 +1,8 @@
-package com.triplocator.imageserver.hanlder;
+package com.joshi.imageserver.hanlder;
 
-import com.triplocator.imageserver.businesslogic.ImageService;
-import com.triplocator.imageserver.request.ImageSaveRequest;
-import com.triplocator.imageserver.response.GeneralRespnse;
+import com.joshi.imageserver.businesslogic.ImageService;
+import com.joshi.imageserver.request.ImageSaveRequest;
+import com.joshi.imageserver.response.GeneralRespnse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package com.triplocator.imageserver.response;
+package com.joshi.imageserver.response;
 
 import java.io.Serializable;
 
