@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @PropertySource("classpath:application.properties")
-public class ImageserverApplication {
+public class ImageserverApplication /*extends SpringBootServletInitializer */{
 
     public static void main(String[] args) {
         SpringApplication.run(ImageserverApplication.class, args);

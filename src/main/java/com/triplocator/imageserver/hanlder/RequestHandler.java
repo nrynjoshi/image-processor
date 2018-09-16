@@ -3,50 +3,66 @@ package com.triplocator.imageserver.hanlder;
 import com.triplocator.imageserver.businesslogic.ImageService;
 import com.triplocator.imageserver.request.ImageSaveRequest;
 import com.triplocator.imageserver.response.GeneralRespnse;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
 public class RequestHandler {
 
-    @Autowired private ImageService imageService;
+    final private ImageService imageService;
 
+    @Value("image.manupulation.token")
+    private String token;
 
+    RequestHandler(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @PostMapping("image")
-    public GeneralRespnse saveImage(RequestEntity<ImageSaveRequest> request){
-        String finalPath=null;
-        GeneralRespnse  respnse=new GeneralRespnse();
-        try{
-
-            finalPath= imageService.saveImage(request.getBody());
-        }catch (Exception x){
-            respnse.setMessage(x.getMessage());
-            //respnse.setError(x.getCause().toString());
-            x.printStackTrace();
+    @ResponseBody
+    public GeneralRespnse saveImage(RequestEntity<ImageSaveRequest> dto, HttpServletRequest request) throws Exception {
+        String finalPath = null;
+        GeneralRespnse respnse = isImageManupulationAvailable(request);
+        if (respnse.getError() != null) {
+            return respnse;
         }
-       if(finalPath==null){
-           respnse.setStatus(500);
-       }else{
-           respnse.setImageurl(finalPath);
-           respnse.setStatus(200);
-       }
+        try {
+
+            finalPath = imageService.saveImage(dto.getBody());
+        } catch (Exception x) {
+            respnse.setMessage(x.getMessage());
+            x.printStackTrace();
+
+        }
+        if (finalPath == null) {
+            respnse.setStatus(500);
+        } else {
+            respnse.setImageurl(finalPath);
+            respnse.setStatus(201);
+        }
         return respnse;
     }
 
     @DeleteMapping("image")
-    public GeneralRespnse deleteImage(RequestEntity<String> path){
-        GeneralRespnse  respnse=new GeneralRespnse();
-        try{
-             imageService.deleteImage(path.getBody());
+    @ResponseBody
+    public GeneralRespnse deleteImage(RequestEntity<String> path, HttpServletRequest request) {
+
+        GeneralRespnse respnse = isImageManupulationAvailable(request);
+        if (respnse.getError() != null) {
+            return respnse;
+        }
+        try {
+            imageService.deleteImage(path.getBody());
             respnse.setStatus(200);
             respnse.setMessage("success");
-        }catch (Exception x){
+        } catch (Exception x) {
             respnse.setMessage(x.getMessage());
             respnse.setError(x.getCause().toString());
             respnse.setStatus(500);
@@ -55,22 +71,19 @@ public class RequestHandler {
         return respnse;
     }
 
-    @GetMapping("/image/check/occurance")
-    public GeneralRespnse retriveImage(RequestEntity<String> path){
-        GeneralRespnse  respnse=new GeneralRespnse();
-        try{
-            //imageService.checkImageNameExist(path.getBody());
-            respnse.setMessage("success");
-            respnse.setStatus(200);
-        }catch (Exception x){
-            respnse.setMessage(x.getMessage());
-            respnse.setError(x.getCause().toString());
-            respnse.setStatus(404);
-            x.printStackTrace();
-        }
-        return respnse;
-    }
+    private GeneralRespnse isImageManupulationAvailable(HttpServletRequest request) {
 
+        final String sendToken = request.getHeader("imgtoken");
+        if (token.equalsIgnoreCase(sendToken)) {
+            return new GeneralRespnse();
+        }
+        GeneralRespnse respnse = new GeneralRespnse();
+        respnse.setError(" 401 Unauthorized");
+        respnse.setMessage("The request requires user authentication");
+        respnse.setStatus(401);
+        return respnse;
+
+    }
 
 
 }

@@ -2,9 +2,9 @@ package com.triplocator.imageserver.consts;
 
 public class ImageConst {
 
-    private final static String IMAGESAVEPATH="/images/triplocator/";
+    private final static String IMAGESAVEPATH="/srv/triplocator/images/";
     private final static String VIRTUALPATHFORUSER ="/images/";
-    private final static String DEFAULTFILE ="/images/";
+    private final static String DEFAULTFILE ="default/image.jpg";
 
     public static String getIMAGESAVEPATH() {
         return IMAGESAVEPATH;

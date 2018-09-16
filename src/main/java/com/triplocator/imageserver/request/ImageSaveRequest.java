@@ -6,14 +6,24 @@ public class ImageSaveRequest {
 
     private List<String> folderPath;
     private String base64Image;
-    private Boolean isImage;
+    private String fileName;
+    private String extension;
 
-    public Boolean getImage() {
-        return isImage;
+
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setImage(Boolean image) {
-        isImage = image;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public List<String> getFolderPath() {
