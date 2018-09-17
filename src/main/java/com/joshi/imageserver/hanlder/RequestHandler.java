@@ -27,7 +27,7 @@ public class RequestHandler {
 
     @PostMapping("image")
     @ResponseBody
-    public GeneralRespnse saveImage(RequestEntity<ImageSaveRequest> dto, HttpServletRequest request) throws Exception {
+    public GeneralRespnse saveImage(RequestEntity<ImageSaveRequest> dto, HttpServletRequest request)  {
         String finalPath = null;
         GeneralRespnse respnse = isImageManupulationAvailable(request);
         if (respnse.getError() != null) {
@@ -39,6 +39,7 @@ public class RequestHandler {
         } catch (Exception x) {
             respnse.setMessage(x.getMessage());
             x.printStackTrace();
+
 
         }
         if (finalPath == null) {
@@ -58,15 +59,19 @@ public class RequestHandler {
         if (respnse.getError() != null) {
             return respnse;
         }
+        Boolean status=false;
         try {
-            imageService.deleteImage(path.getBody());
-            respnse.setStatus(200);
-            respnse.setMessage("success");
+            status=imageService.deleteImage(path.getBody());
         } catch (Exception x) {
             respnse.setMessage(x.getMessage());
             respnse.setError(x.getCause().toString());
-            respnse.setStatus(500);
             x.printStackTrace();
+        }
+        if(status){
+            respnse.setStatus(200);
+            respnse.setMessage("success");
+        }else{
+            respnse.setStatus(500);
         }
         return respnse;
     }

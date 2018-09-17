@@ -4,7 +4,7 @@ import com.joshi.imageserver.consts.ImageConst;
 import com.joshi.imageserver.request.ImageSaveRequest;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,14 +17,19 @@ public class ImageService {
     public String saveImage(ImageSaveRequest request) throws Exception {
         StringBuilder createAPath=new StringBuilder();
         for(String path:request.getFolderPath()){
-            createAPath.append(path+ "/");
+            createAPath.append(path);
+            createAPath.append("/");
         }
-        createAPath.append( request.getFileName()+"."+request.getExtension());
+        createAPath.append( request.getFileName());
+        createAPath.append(".");
+        createAPath.append(request.getExtension());
         File outputfile = new File(ImageConst.getIMAGESAVEPATH()+createAPath.toString());
         try {
             File directory = new File(ImageConst.getIMAGESAVEPATH()+createAPath);
             if (!directory.exists()) {
-                directory.mkdirs();
+               if(directory.mkdirs()){
+                   System.out.print("folder created successfully");
+               }
             }
             String base64Img=request.getBase64Image().split(",")[1];
             BufferedImage bi = decodeToImage(base64Img);  // retrieve image
@@ -52,11 +57,12 @@ public class ImageService {
     }
 
     public byte[] provideImage(String path) throws Exception {
-        BufferedImage img = null;
+        BufferedImage img ;
         try {
             img = ImageIO.read(new File(ImageConst.getIMAGESAVEPATH()+path));
             return convertBufferedImageToByte(img);
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("asdf");
             throw new Exception("error");
         }
@@ -65,7 +71,7 @@ public class ImageService {
 
 
 
-    public byte[] convertBufferedImageToByte(BufferedImage image) throws IOException {
+    private byte[] convertBufferedImageToByte(BufferedImage image) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "jpg", baos);
         baos.flush();
@@ -75,9 +81,9 @@ public class ImageService {
     }
 
 
-    public static BufferedImage decodeToImage(String imageString) throws Exception {
+    private BufferedImage decodeToImage(String imageString) throws Exception {
 
-        BufferedImage image = null;
+        BufferedImage image ;
         byte[] imageByte;
         try {
             BASE64Decoder decoder = new BASE64Decoder();
@@ -92,24 +98,7 @@ public class ImageService {
         return image;
     }
 
-    public static String encodeToString(BufferedImage image, String type) throws Exception {
-        String imageString = null;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-        try {
-            ImageIO.write(image, type, bos);
-            byte[] imageBytes = bos.toByteArray();
-
-            BASE64Encoder encoder = new BASE64Encoder();
-            imageString = encoder.encode(imageBytes);
-
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new Exception("error");
-        }
-        return imageString;
-    }
 
 }
 
