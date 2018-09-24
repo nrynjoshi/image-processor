@@ -18,7 +18,7 @@ public class RequestHandler {
 
     final private ImageService imageService;
 
-    @Value("image.manupulation.token")
+    @Value("${image.manupulation.token}")
     private String token;
 
     RequestHandler(ImageService imageService) {

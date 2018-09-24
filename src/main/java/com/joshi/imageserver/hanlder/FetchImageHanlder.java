@@ -23,45 +23,45 @@ public class FetchImageHanlder {
 
     @GetMapping(value = "original/**")
     public @ResponseBody
-    byte[] orginalRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void orginalRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getRequestURI().replaceFirst("/original/", "");
-        return imageUtil.provideOrginalImage(response,path);
+         imageUtil.provideOrginalImage(response,path);
     }
 
     @GetMapping(value = "mobile/**")
     public @ResponseBody
-    byte[] mobileRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void mobileRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getRequestURI().replaceFirst("/mobile/", "");
-        return imageUtil.provideMobileImage(response,path);
+         imageUtil.provideMobileImage(response,path);
     }
 
 
     @GetMapping(value = "display/**")
     public @ResponseBody
-    byte[] displayRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void displayRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getRequestURI().replaceFirst("/display/", "");
-        return imageUtil.provideDisplayImage(response,path);
+         imageUtil.provideDisplayImage(response,path);
     }
 
     @GetMapping(value = "thumbnail/**")
     public @ResponseBody
-    byte[] thumbnailRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void thumbnailRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getRequestURI().replaceFirst("/thumbnail/", "");
-        return imageUtil.provideThumbnailImage(response,path);
+         imageUtil.provideThumbnailImage(response,path);
     }
 
     @GetMapping(value = "banner/**")
     public @ResponseBody
-    byte[] bannerRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void bannerRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getRequestURI().replaceFirst("/banner/", "");
-        return imageUtil.provideBannerImage(response,path);
+         imageUtil.provideBannerImage(response,path);
     }
 
     @GetMapping(value = "medium/**")
     public @ResponseBody
-    byte[] mediumRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    void mediumRetriveImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getRequestURI().replaceFirst("/medium/", "");
-        return imageUtil.provideMediumImage(response,path);
+         imageUtil.provideMediumImage(response,path);
     }
 
 

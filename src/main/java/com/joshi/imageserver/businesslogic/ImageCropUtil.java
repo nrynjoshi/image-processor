@@ -81,17 +81,18 @@ public class ImageCropUtil {
         return dest;
     }
 
+
     public static ByteArrayOutputStream fit(ByteArrayInputStream bais, int width, int height) throws IOException {
         BufferedImage src = ImageIO.read(bais);
         int newWidth;
         int newHeight;
 
-        Float scale;
-        if (src.getWidth() > src.getHeight()) {
-            scale = Float.valueOf(width) / Float.valueOf(src.getWidth());
-        } else {
-            scale = Float.valueOf(height) / Float.valueOf(src.getHeight());
-        }
+        Float scale=1f;
+//        if (src.getWidth() > src.getHeight()) {
+//            scale = Float.valueOf(width) / Float.valueOf(src.getWidth());
+//        } else {
+//            scale = Float.valueOf(height) / Float.valueOf(src.getHeight());
+//        }
 
         newWidth = Float.valueOf(src.getWidth() * scale).intValue();
         newHeight = Float.valueOf(src.getHeight() * scale).intValue();
